@@ -44,6 +44,12 @@
                                 outline: none;
                             "
                         />
+                        <cstm-btn
+                            v-if="indexj == columns.length - 1 && edit"
+                            color="reset"
+                            @click="removeRow(indexi)"
+                            >X</cstm-btn
+                        >
                     </td>
                 </tr>
             </tbody>
@@ -98,9 +104,11 @@ export default defineComponent({
                 ]),
             );
         });
+        const edit = csvStore.edit;
         return {
             columns,
             editableValues,
+            edit,
         };
     },
     computed: {
@@ -214,6 +222,9 @@ export default defineComponent({
             if (val.includes(',') || val.includes(';')) {
                 this.editableValues[id][key] = this.sortedItems[index][key];
             } else csvStore.setItem(index, key, val);
+        },
+        removeRow(i: number) {
+            csvStore.removeRow(i);
         },
     },
 });

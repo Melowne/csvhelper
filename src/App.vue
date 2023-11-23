@@ -38,7 +38,10 @@ const handleFileSelect = () => {
                 <cstm-btn
                     style="width: 150px"
                     for="fileInput"
-                    @click="fileInputRef?.click()"
+                    @click="
+                        csvStore.resetAll();
+                        fileInputRef?.click();
+                    "
                     >Choose a File</cstm-btn
                 >&nbsp;
                 <cstm-btn
@@ -66,6 +69,14 @@ const handleFileSelect = () => {
                     :sorted="!csvStore.edit.value"
                 />
             </div>
+        </div>
+        <div class="row" v-if="csvStore.edit.value">
+            <cstm-btn
+                color="secondary"
+                for="fileInput"
+                @click="csvStore.addRow()"
+                >+</cstm-btn
+            >&nbsp;
         </div>
         <input
             ref="fileInputRef"

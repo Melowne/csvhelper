@@ -104,7 +104,17 @@ export class CsvService {
         this.items.value = JSON.parse(JSON.stringify(this.itemsCopy.value));
         this.edit.value = false;
     }
-
+    resetAll() {
+        this.items.value = [];
+        this.itemsCopy.value = [];
+        this.edit.value = false;
+    }
+    removeRow(i: number) {
+        this.items.value.splice(i, 1);
+    }
+    addRow() {
+        this.items.value.push({});
+    }
     setItem(index: number, key: string, val: string) {
         if (this.items.value[index][key] !== val) this.edit.value = true;
         this.items.value[index][key] = val;
