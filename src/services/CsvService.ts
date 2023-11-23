@@ -8,6 +8,7 @@ export class CsvService {
     edit = ref(false);
     filename = '';
     private lines: string[] = [];
+    private uniqueIdCounter = 1;
 
     async loadCsvItems(fileContent: string) {
         this.lines = fileContent.split('\n');
@@ -25,7 +26,7 @@ export class CsvService {
             string | number
         > & {uniqueid: string};
 
-        let uniqueIdCounter = 1;
+        this.uniqueIdCounter = 1;
 
         for (let i = 1; i < this.lines.length; i++) {
             let rowData: string[] = [];
@@ -33,7 +34,7 @@ export class CsvService {
             else rowData = this.lines[i].split(';');
             // Create an object with dynamic type
             const dynamicRow: DynamicType = {
-                uniqueid: `uniqueid${uniqueIdCounter++}`,
+                uniqueid: `uniqueid${this.uniqueIdCounter++}`,
             };
             columnNames.forEach((columnName, index) => {
                 if (columnName !== 'uniqueid' && rowData[index]) {
@@ -114,6 +115,8 @@ export class CsvService {
     }
     addRow() {
         this.items.value.push({});
+        this.items.value[this.items.value.length - 1].uniqueid = `uniqueid${this
+            .uniqueIdCounter++}`;
     }
     setItem(index: number, key: string, val: string) {
         if (this.items.value[index][key] !== val) this.edit.value = true;
